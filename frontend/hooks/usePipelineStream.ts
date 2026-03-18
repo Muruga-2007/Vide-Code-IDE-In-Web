@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import {
   PipelineState,
   StageName,
@@ -16,6 +16,7 @@ export interface StartPipelineOptions {
   mode?: GenerationMode;
   projectType?: ProjectType;
   images?: Array<{ mime_type: string; data: string }>;
+  planOnly?: boolean;
 }
 
 export function usePipelineStream(
@@ -23,10 +24,12 @@ export function usePipelineStream(
   onManifestReady?: (manifest: FileManifest) => void,
 ) {
   const [state, setState] = useState<PipelineState>(initialPipelineState);
+  const sessionIdRef = useRef<string | null>(null);
 
   const startPipeline = useCallback(
     async (prompt: string, language: string, options: StartPipelineOptions = {}) => {
       const mode = options.mode ?? "single_file";
+      const planOnly = options.planOnly ?? false;
 
       // Reset state
       setState({
@@ -48,6 +51,7 @@ export function usePipelineStream(
             mode,
             project_type: options.projectType ?? null,
             images: options.images ?? [],
+            plan_only: planOnly,
           }),
         });
         if (!res.ok) throw new Error(`Failed to start pipeline: ${res.statusText}`);
@@ -58,6 +62,7 @@ export function usePipelineStream(
         return;
       }
 
+      sessionIdRef.current = sessionId;
       setState((prev) => ({ ...prev, sessionId }));
 
       // 2. Connect SSE
@@ -117,16 +122,41 @@ export function usePipelineStream(
         onManifestReady?.(manifest);
       });
 
+      // Plan mode — Ground only, waiting for user approval
+      source.addEventListener("plan_ready", (e) => {
+        const { manifest } = JSON.parse((e as MessageEvent).data) as { manifest: FileManifest };
+        setState((prev) => ({
+          ...prev,
+          manifest,
+          planReady: true,
+          isStreaming: false,
+          activeStage: null,
+        }));
+        onManifestReady?.(manifest);
+        // Don't close SSE — it stays open for the /execute call
+      });
+
       source.addEventListener("file_created", (e) => {
-        const { relative_path, content } = JSON.parse((e as MessageEvent).data) as {
+        const { relative_path, content, model, complexity } = JSON.parse((e as MessageEvent).data) as {
           path: string;
           relative_path: string;
           content: string;
+          model?: string;
+          complexity?: string;
         };
         setState((prev) => ({
           ...prev,
           activeFilePath: relative_path,
           generatedFiles: { ...prev.generatedFiles, [relative_path]: content },
+          modelAssignments: model
+            ? {
+                ...prev.modelAssignments,
+                [relative_path]: {
+                  model,
+                  complexity: (complexity as "high" | "medium" | "low") ?? "medium",
+                },
+              }
+            : prev.modelAssignments,
         }));
         onFileCreated?.(relative_path, content);
       });
@@ -199,9 +229,42 @@ export function usePipelineStream(
     [onFileCreated, onManifestReady]
   );
 
+  /** Execute an approved/edited plan (plan_only mode) */
+  const executePlan = useCallback(async (manifest: FileManifest) => {
+    const sessionId = sessionIdRef.current;
+    if (!sessionId) return;
+
+    setState((prev) => ({
+      ...prev,
+      isStreaming: true,
+      planReady: false,
+      manifest,
+    }));
+
+    try {
+      const res = await fetch(`${API_URL}/api/pipeline/${sessionId}/execute`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ manifest }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setState((prev) => ({
+          ...prev,
+          isStreaming: false,
+          error: err.detail ?? "Execute plan failed",
+        }));
+      }
+      // SSE stream on the existing sessionId will now receive Tower events
+    } catch (err) {
+      setState((prev) => ({ ...prev, isStreaming: false, error: String(err) }));
+    }
+  }, []);
+
   const reset = useCallback(() => {
+    sessionIdRef.current = null;
     setState(initialPipelineState);
   }, []);
 
-  return { state, startPipeline, reset };
+  return { state, startPipeline, executePlan, reset };
 }

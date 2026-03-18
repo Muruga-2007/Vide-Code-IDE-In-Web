@@ -37,6 +37,25 @@ export interface FileManifest {
   files: FileEntry[];
 }
 
+// ─── Model assignment per file (from tower SSE events) ───────────────────────
+
+export interface FileModelAssignment {
+  model: string;
+  complexity: "high" | "medium" | "low";
+}
+
+// ─── Chat history ─────────────────────────────────────────────────────────────
+
+export interface ChatMessage {
+  id: string;
+  prompt: string;
+  mode: GenerationMode;
+  timestamp: number;
+  projectName?: string;
+  fileCount?: number;
+  language?: string;
+}
+
 // ─── Pipeline state ───────────────────────────────────────────────────────────
 
 export interface PipelineState {
@@ -59,6 +78,10 @@ export interface PipelineState {
   errorFiles: Record<string, string>;       // relative_path → error message
   projectPath: string | null;
   projectName: string | null;
+  // Plan mode
+  planReady: boolean;
+  // Model vote tracking (Phase 3)
+  modelAssignments: Record<string, FileModelAssignment>;  // relative_path → assignment
 }
 
 export const initialPipelineState: PipelineState = {
@@ -80,4 +103,6 @@ export const initialPipelineState: PipelineState = {
   errorFiles: {},
   projectPath: null,
   projectName: null,
+  planReady: false,
+  modelAssignments: {},
 };

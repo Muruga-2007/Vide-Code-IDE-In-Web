@@ -44,6 +44,11 @@ class PipelineStartRequest(BaseModel):
     mode: Literal["single_file", "multi_file"] = "single_file"
     project_type: Optional[ProjectType] = None
     images: list[ImagePart] = []
+    plan_only: bool = False  # Stop after Ground stage; wait for /execute
+
+
+class ExecutePlanRequest(BaseModel):
+    manifest: FileManifest  # Possibly user-edited manifest
 
 
 class PipelineStartResponse(BaseModel):

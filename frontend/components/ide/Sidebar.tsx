@@ -1,6 +1,6 @@
 "use client";
 
-import type { PipelineState } from "@/types/pipeline";
+import type { PipelineState, ChatMessage } from "@/types/pipeline";
 import type { StartPipelineOptions } from "@/hooks/usePipelineStream";
 import type { FileNode } from "@/types/filesystem";
 import { FileExplorer } from "@/components/explorer/FileExplorer";
@@ -17,6 +17,8 @@ interface Props {
   hasResult: boolean;
   onFileOpen: (node: FileNode) => void;
   refreshTrigger: number;
+  chatHistory?: ChatMessage[];
+  onAddChatMessage?: (msg: Omit<ChatMessage, "id">) => void;
 }
 
 const VIEW_HEADERS: Record<ActivityView, string> = {
@@ -34,6 +36,8 @@ export function Sidebar({
   hasResult,
   onFileOpen,
   refreshTrigger,
+  chatHistory,
+  onAddChatMessage,
 }: Props) {
   return (
     <div className="flex flex-col h-full overflow-hidden bg-zinc-900 border-r border-zinc-800">
@@ -54,6 +58,8 @@ export function Sidebar({
             isGenerating={isGenerating}
             onReset={onReset}
             hasResult={hasResult}
+            chatHistory={chatHistory}
+            onAddChatMessage={onAddChatMessage}
           />
         )}
 

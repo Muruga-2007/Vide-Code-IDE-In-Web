@@ -3,13 +3,14 @@
 import dynamic from "next/dynamic";
 import type { PipelineState } from "@/types/pipeline";
 import { PipelinePanel } from "@/components/pipeline/PipelinePanel";
+import { PreviewPanel } from "@/components/preview/PreviewPanel";
 
 const TerminalPanel = dynamic(
   () => import("@/components/terminal/TerminalPanel").then((m) => m.TerminalPanel),
   { ssr: false }
 );
 
-type PanelTab = "terminal" | "pipeline" | "output";
+type PanelTab = "terminal" | "pipeline" | "output" | "preview";
 
 interface Props {
   activePanel: PanelTab;
@@ -21,7 +22,8 @@ interface Props {
 const TABS: { id: PanelTab; label: string }[] = [
   { id: "terminal", label: "Terminal" },
   { id: "pipeline", label: "Pipeline" },
-  { id: "output", label: "Output" },
+  { id: "output",   label: "Output"   },
+  { id: "preview",  label: "Preview"  },
 ];
 
 export function PanelArea({ activePanel, onPanelChange, pipelineState, onRefreshExplorer }: Props) {
@@ -66,6 +68,13 @@ export function PanelArea({ activePanel, onPanelChange, pipelineState, onRefresh
         {activePanel === "output" && (
           <div className="absolute inset-0 overflow-y-auto p-4 space-y-3">
             <OutputPanel state={pipelineState} onRefreshExplorer={onRefreshExplorer} />
+          </div>
+        )}
+
+        {/* Preview */}
+        {activePanel === "preview" && (
+          <div className="absolute inset-0">
+            <PreviewPanel defaultPort={3000} />
           </div>
         )}
       </div>

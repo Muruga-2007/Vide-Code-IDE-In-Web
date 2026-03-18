@@ -1,3 +1,10 @@
+import sys
+import asyncio
+
+# Windows requires ProactorEventLoop for asyncio subprocess (terminal)
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
 from contextlib import asynccontextmanager
 from pathlib import Path
 

@@ -106,6 +106,8 @@ export function PipelinePanel({ state }: Props) {
                 manifest={state.manifest}
                 generatedPaths={generatedPaths}
                 errorPaths={errorPaths}
+                activeFilePath={state.activeFilePath}
+                modelAssignments={state.modelAssignments}
               />
             )}
             {(state.manifest?.files ?? []).length > 0 && (

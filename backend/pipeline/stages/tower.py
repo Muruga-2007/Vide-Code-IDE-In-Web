@@ -167,11 +167,13 @@ async def _generate_one_file(
     abs_path.parent.mkdir(parents=True, exist_ok=True)
     abs_path.write_text(content, encoding="utf-8")
 
-    # Notify frontend
+    # Notify frontend (include model routing info for vote visualizer)
     await sse.emit(session_id, "file_created", {
         "path": str(abs_path),
         "relative_path": file_entry.path,
         "content": content,
+        "model": model_name,
+        "complexity": file_entry.complexity,
     })
 
     return file_entry.path, content
