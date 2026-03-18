@@ -20,10 +20,28 @@ Output bytes are base64-encoded so ANSI escape sequences survive JSON.
 import asyncio
 import base64
 import json
+import shutil
 import uuid
 from pathlib import Path
 
 from fastapi import WebSocket, WebSocketDisconnect
+
+
+def _resolve_shell(shell: str, args: list[str]) -> tuple[str, list[str]]:
+    """Return (shell_path, args) — falls back to cmd.exe if shell not found."""
+    # Try as-is first
+    if shutil.which(shell):
+        return shell, args
+    # Try common PowerShell locations
+    for candidate in [
+        r"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe",
+        r"C:\Program Files\PowerShell\7\pwsh.exe",
+    ]:
+        if Path(candidate).exists():
+            return candidate, args
+    # Ultimate fallback: cmd.exe
+    cmd = shutil.which("cmd") or r"C:\Windows\System32\cmd.exe"
+    return cmd, ["/K"]
 
 
 class TerminalSession:
@@ -48,17 +66,19 @@ class TerminalSession:
         # Ensure cwd exists
         Path(self.cwd).mkdir(parents=True, exist_ok=True)
 
+        shell, args = _resolve_shell(self.shell, self.shell_args)
+
         try:
             self._process = await asyncio.create_subprocess_exec(
-                self.shell,
-                *self.shell_args,
+                shell,
+                *args,
                 stdin=asyncio.subprocess.PIPE,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.STDOUT,
                 cwd=self.cwd,
             )
         except Exception as e:
-            await self._send({"type": "error", "message": f"Failed to start shell: {e}"})
+            await self._send({"type": "error", "message": f"Failed to start shell ({shell}): {type(e).__name__}: {e}"})
             return
 
         await self._send({

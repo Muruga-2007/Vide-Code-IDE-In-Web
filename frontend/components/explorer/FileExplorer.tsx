@@ -79,10 +79,6 @@ export function FileExplorer({ onFileOpen, refreshTrigger }: Props) {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <div className="text-[10px] uppercase tracking-widest text-zinc-500 px-3 py-2 border-b border-zinc-800 shrink-0">
-        Explorer
-      </div>
-
       <div className="flex-1 overflow-y-auto py-1 px-1">
         {loading && (
           <div className="flex items-center justify-center py-8">

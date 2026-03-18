@@ -30,6 +30,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Root redirect for health checkers
+@app.get("/")
+async def root():
+    return {"status": "ok", "version": "2.0.0", "name": "Vibe IDE API"}
+
 # REST routes
 app.include_router(health.router, prefix="/api")
 app.include_router(pipeline.router, prefix="/api/pipeline")

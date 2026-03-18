@@ -1,0 +1,181 @@
+{
+  "project_name": "aeterna_watches_landing",
+  "description": "A cinematic landing page for a luxury watch company featuring scroll-based animations.",
+  "tech_stack": [
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "Vite",
+    "Framer Motion"
+  ],
+  "files": [
+    {
+      "path": "package.json",
+      "type": "config",
+      "description": "Defines project metadata, dependencies, and scripts.",
+      "complexity": "low"
+    },
+    {
+      "path": "vite.config.ts",
+      "type": "config",
+      "description": "Configuration file for the Vite build tool.",
+      "complexity": "low"
+    },
+    {
+      "path": "tsconfig.json",
+      "type": "config",
+      "description": "TypeScript compiler options and project file configuration.",
+      "complexity": "low"
+    },
+    {
+      "path": "tailwind.config.js",
+      "type": "config",
+      "description": "Configuration for the Tailwind CSS framework, including theme customizations.",
+      "complexity": "medium"
+    },
+    {
+      "path": "postcss.config.js",
+      "type": "config",
+      "description": "Configuration for PostCSS, used by Tailwind CSS.",
+      "complexity": "low"
+    },
+    {
+      "path": ".gitignore",
+      "type": "config",
+      "description": "Specifies intentionally untracked files to ignore.",
+      "complexity": "low"
+    },
+    {
+      "path": "README.md",
+      "type": "docs",
+      "description": "Project documentation with setup and usage instructions.",
+      "complexity": "low"
+    },
+    {
+      "path": "public/favicon.svg",
+      "type": "config",
+      "description": "The favicon for the website.",
+      "complexity": "low"
+    },
+    {
+      "path": "public/videos/hero-background.mp4",
+      "type": "config",
+      "description": "Cinematic background video for the hero section.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/main.tsx",
+      "type": "core",
+      "description": "The main entry point of the React application.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/App.tsx",
+      "type": "core",
+      "description": "The root component that sets up routing and global layout.",
+      "complexity": "medium"
+    },
+    {
+      "path": "src/index.css",
+      "type": "config",
+      "description": "Global CSS styles and Tailwind CSS directives.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/vite-env.d.ts",
+      "type": "config",
+      "description": "TypeScript declarations for Vite-specific environment variables.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/pages/HomePage.tsx",
+      "type": "core",
+      "description": "The main landing page component that assembles all sections.",
+      "complexity": "medium"
+    },
+    {
+      "path": "src/components/layout/Header.tsx",
+      "type": "core",
+      "description": "The main navigation header for the site.",
+      "complexity": "medium"
+    },
+    {
+      "path": "src/components/layout/Footer.tsx",
+      "type": "core",
+      "description": "The footer component with links and copyright information.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/components/sections/HeroSection.tsx",
+      "type": "core",
+      "description": "The main hero section with the cinematic video and headline.",
+      "complexity": "high"
+    },
+    {
+      "path": "src/components/sections/CollectionSection.tsx",
+      "type": "core",
+      "description": "A section showcasing featured watch collections with a carousel.",
+      "complexity": "medium"
+    },
+    {
+      "path": "src/components/sections/CraftsmanshipSection.tsx",
+      "type": "core",
+      "description": "A section detailing the watchmaking process with scroll-triggered animations.",
+      "complexity": "high"
+    },
+    {
+      "path": "src/components/ui/Button.tsx",
+      "type": "util",
+      "description": "A reusable, styled button component.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/components/ui/WatchCard.tsx",
+      "type": "core",
+      "description": "A card component to display a single watch model.",
+      "complexity": "medium"
+    },
+    {
+      "path": "src/components/animations/AnimatedText.tsx",
+      "type": "util",
+      "description": "A utility component for animating text characters or words on reveal.",
+      "complexity": "medium"
+    },
+    {
+      "path": "src/hooks/useScrollAnimation.ts",
+      "type": "util",
+      "description": "A custom hook to trigger animations when an element scrolls into view.",
+      "complexity": "medium"
+    },
+    {
+      "path": "src/lib/motion.ts",
+      "type": "util",
+      "description": "Pre-defined animation variants for Framer Motion.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/types/index.ts",
+      "type": "schema",
+      "description": "Defines and exports the core TypeScript types for the application.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/assets/images/watch-chrono.png",
+      "type": "config",
+      "description": "Product image for the chronograph watch model.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/assets/images/watch-classic.png",
+      "type": "config",
+      "description": "Product image for the classic watch model.",
+      "complexity": "low"
+    },
+    {
+      "path": "src/components/ui/Button.test.tsx",
+      "type": "test",
+      "description": "Unit tests for the Button component.",
+      "complexity": "low"
+    }
+  ]
+}

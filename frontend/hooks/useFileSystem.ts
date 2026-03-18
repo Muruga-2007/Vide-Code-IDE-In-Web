@@ -20,7 +20,7 @@ export function useFileSystem() {
       const res = await fetch(url);
       if (!res.ok) throw new Error(`Tree fetch failed: ${res.statusText}`);
       const data: FileTree = await res.json();
-      setTree(data.tree ?? []);
+      setTree(data.tree?.children ?? []);
     } catch (e) {
       setError(String(e));
     } finally {

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vibe Coding Tool",
-  description: "Multi-model Gemini pipeline for AI-powered code generation",
+  title: "Vibe IDE",
+  description: "VS Code-like AI coding tool powered by 4 Gemini models",
 };
 
 export default function RootLayout({

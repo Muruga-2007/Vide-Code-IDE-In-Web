@@ -10,7 +10,7 @@ export interface FileNode {
 
 export interface FileTree {
   root: string;
-  tree: FileNode[];
+  tree: FileNode;   // single root node; display its .children
 }
 
 export interface EditorTab {

@@ -6,7 +6,29 @@
       "Bash(npm install:*)",
       "Bash(npx shadcn@latest init --yes --defaults)",
       "Bash(npx shadcn@latest add card badge select textarea progress --yes)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(cmd /c \"cd /d D:\\\\videe\\\\frontend && npm install @xterm/xterm@^5.5.0 @xterm/addon-fit@^0.10.0 @xterm/addon-web-links@^0.11.0 react-resizable-panels@^2.1.7 --save\")",
+      "Bash(cmd /c \"cd /d D:\\\\videe\\\\frontend && npm install @xterm/xterm @xterm/addon-fit @xterm/addon-web-links react-resizable-panels\")",
+      "Bash(cmd /c \"dir D:\\\\videe\\\\frontend\\\\node_modules\\\\react-resizable-panels 2>&1\")",
+      "Bash(powershell -Command \"Set-Location ''D:\\\\videe\\\\frontend''; npm install @xterm/xterm @xterm/addon-fit @xterm/addon-web-links react-resizable-panels; Write-Host ''DONE''\")",
+      "Bash(powershell -Command \"New-Item -ItemType Directory -Force -Path ''D:\\\\videe\\\\frontend\\\\components\\\\ide'', ''D:\\\\videe\\\\frontend\\\\components\\\\explorer'', ''D:\\\\videe\\\\frontend\\\\components\\\\terminal'', ''D:\\\\videe\\\\frontend\\\\components\\\\ai-generate'' | Out-Null; Write-Host ''Dirs created''\")",
+      "Bash(powershell -Command \"Get-Content ''D:\\\\videe\\\\frontend\\\\package.json'' | Select-String ''dev|start|build''\")",
+      "Bash(powershell -Command \"Test-Path ''D:\\\\videe\\\\.claude'' ; New-Item -ItemType Directory -Force -Path ''D:\\\\videe\\\\.claude'' | Out-Null; Write-Host ''ready''\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(powershell -Command \"Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object OwningProcess; Get-Process -Id \\(Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue\\).OwningProcess -ErrorAction SilentlyContinue | Select-Object Id,Name\")",
+      "Bash(powershell -Command \"Test-Path ''D:\\\\videe\\\\backend\\\\venv\\\\Scripts\\\\python.exe''; Test-Path ''D:\\\\videe\\\\backend\\\\venv''\")",
+      "Bash(powershell -Command \"Set-Location ''D:\\\\videe\\\\backend''; .\\\\venv\\\\Scripts\\\\pip install -r requirements.txt --quiet; Write-Host ''DONE''\")",
+      "Bash(powershell -Command \"Get-Command npm | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Program Files\\\\nodejs\\\\npm*'' | Select-Object Name\")",
+      "Bash(powershell -Command \"where.exe node\")",
+      "Bash(powershell -Command \"Remove-Item ''D:\\\\videe\\\\package-lock.json'' -Force; Write-Host ''Deleted stray lockfile''\")",
+      "Bash(powershell -Command \"Get-Content ''C:\\\\Users\\\\murug\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--videe\\\\65c2a75f-3214-4d9d-9eb3-6d0d2b0b05fa\\\\tasks\\\\a2a6996f358862ed5.output'' -Tail 30 -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -Command \"Get-ChildItem -Recurse -File ''D:\\\\videe\\\\frontend\\\\components'' | Select-Object FullName | Sort-Object FullName\")",
+      "Bash(powershell -Command \"Get-Content ''D:\\\\videe\\\\frontend\\\\app\\\\page.tsx''\")",
+      "Bash(node -e \"const m = require\\(''react-resizable-panels''\\); console.log\\(Object.keys\\(m\\)\\)\")",
+      "WebSearch",
+      "Bash(python -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\(p[''''version'''']\\)\")",
+      "Bash(node -e \"const m = require\\(''D:/videe/frontend/node_modules/react-resizable-panels/dist/react-resizable-panels.cjs''\\); console.log\\(Object.keys\\(m\\).join\\('', ''\\)\\)\")"
     ]
   }
 }
